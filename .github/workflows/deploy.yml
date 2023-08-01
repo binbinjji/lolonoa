@@ -31,10 +31,10 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: build
-      - name: Run Script
-        run: ls build/libs
+      - name: Rename file
+        run: mv ./build/libs ./build/build
       - name: Make zip file
-        run: zip -r ./lolonoa-zip ./build/libs
+        run: zip -r ./lolonoa-zip ./build/build
         shell: bash
         # AWS Login 
       - name: Configure AWS credentials
