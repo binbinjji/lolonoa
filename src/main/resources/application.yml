@@ -1,0 +1,42 @@
+server:
+  port: 8080
+#  forward-headers-strategy: FRAMEWORK
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://lolonoa.caikflazqkfb.ap-northeast-2.rds.amazonaws.com:3306/lolonoa
+    username: {DB_USERNAME}
+    password: {DB_PASSWORD}
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+springdoc:
+  packages-to-scan: com.example.gg
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /api-docs # Swagger UI 경로
+    tags-sorter: alpha # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: method # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+
+
+
+jwt:
+  secret:
+    key: ${JWT_SECRET}
+#  token:
+#    access-expiration-time: 60 # 1분
+#    refresh-expiration-time: 600
