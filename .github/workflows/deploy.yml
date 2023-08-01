@@ -32,9 +32,9 @@ jobs:
         with:
           arguments: build
       - name: Rename file
-        run: mv ./build/libs ./build/build
+        run: mv ./build/libs ./build/lolonoa-build
       - name: Make zip file
-        run: zip -r ./lolonoa-zip ./build/build
+        run: zip -r ./lolonoa-zip ./build/lolonoa-build
         shell: bash
         # AWS Login 
       - name: Configure AWS credentials
