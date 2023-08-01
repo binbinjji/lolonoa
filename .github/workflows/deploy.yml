@@ -46,5 +46,5 @@ jobs:
       - name: Run Script
         run: ls
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./lolonoa.zip s3://lolonoa-deploy-s3/lolonoa.zip #S3에 업로드하는 명령어
+        run: aws s3 cp --region ap-northeast-2 ./lolonoa-zip.zip s3://lolonoa-deploy-s3/lolonoa.zip #S3에 업로드하는 명령어
       
