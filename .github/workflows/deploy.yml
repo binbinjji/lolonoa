@@ -32,4 +32,4 @@ jobs:
         with:
           arguments: build
       - name: Run Script
-        run: ls
+        run: ls build/libs
