@@ -51,6 +51,7 @@ public class SignController {
         return new ResponseEntity<>( memberService.getMember(account), HttpStatus.OK);
     }
 
+    //주석추가
     @Operation(summary = "토큰 리프레시", description = "access, refresh 토큰 모두 갱신합니다.")
     @GetMapping("/refresh")
     public ResponseEntity<TokenDto> refresh(@RequestBody TokenDto token) throws Exception {
