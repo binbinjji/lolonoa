@@ -47,4 +47,5 @@ jobs:
         run: ls
       - name: Upload to S3
         run: aws s3 cp --region ap-northeast-2 ./lolonoa-zip.zip s3://lolonoa-deploy-s3/lolonoa.zip #S3에 업로드하는 명령어
-      
+      - name: Code deploy
+        run: aws deploy create-deployment --application-name lolonoa --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name lolonoa-group --s3-location bucket=lolonoa-deploy-s3,bundleType=zip,key=lolonoa.zip
