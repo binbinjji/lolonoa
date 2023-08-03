@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://lolonoa.caikflazqkfb.ap-northeast-2.rds.amazonaws.com:3306/lolonoa
-    username: ${{ secrets.DB_USERNAME }}
-    password: ${{ secrets.DB_PASSWORD }}
+    username: admin
+    password: 20230724a
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -36,7 +36,7 @@ springdoc:
 
 jwt:
   secret:
-    key: ${{ secrets.JWT_SECRET }}
+    key: f5670298-4d7e-4ed4-8624-197dae2e8a1f
 #  token:
 #    access-expiration-time: 60 # 1분
 #    refresh-expiration-time: 600
