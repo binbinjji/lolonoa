@@ -1,17 +1,18 @@
 #!/bin/bash
 
-REPOSITORY=/home/ubuntu/build/
-PROJECT_NAME=Lolonoa
+REPOSITORY=/home/ubuntu/lolonoa/
+BUILD_JAR=$(ls /home/ubuntu/lolonoa/build/libs/*.jar)
+JAR_NAME=$(basename $BUILD_JAR)
 
-echo "> Build 파일 복사"
+#echo "> Build 파일 복사"
 
-cp $REPOSITORY/*.jar $REPOSITORY/
+cp $REPOSITORY/build/libs/*.jar $REPOSITORY/
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
 # 수행 중인 애플리케이션 프로세스 ID => 구동 중이면 종료하기 위함
-CURRENT_PID=$(pgrep -fl $PROJECT_NAME | grep jar | awk '{print $1}')
-
+#CURRENT_PID=$(pgrep -fl $PROJECT_NAME | grep jar | awk '{print $1}')
+CURRENT_PID=$(pgrep -f $JAR_NAME)
 echo "현재 구동중인 어플리케이션 pid: $CURRENT_PID"
 
 if [ -z "$CURRENT_PID" ]; then
@@ -24,7 +25,7 @@ fi
 
 echo "> 새 어플리케이션 배포"
 
-JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
+#JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 
 echo "> JAR Name: $JAR_NAME"
 
@@ -35,8 +36,8 @@ chmod +x $JAR_NAME # Jar 파일은 실행 권한이 없는 상태이므로 권�
 echo "> $JAR_NAME 실행"
 
 nohup java -jar \
-    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ec2-user/app/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
-    -Dspring.profiles.active=real \
+#    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ubuntu/lolonoa/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
+#    -Dspring.profiles.active=real \
     $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
 # nohup 실행 시 CodeDeploy는 무한 대기한다. 이를 해결하기 위해 nohup.out 파일을 표준 입출력용으로 별도로 사용한다.
 # 이렇게 하지 않으면 nohup.out 파일이 생성되지 않고 CodeDeploy 로그에 표준 입출력이 출력된다.
