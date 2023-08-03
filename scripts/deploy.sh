@@ -1,12 +1,12 @@
 #!/bin/bash
 
-REPOSITORY=/home/ubuntu/lolonoa/
+REPOSITORY=/home/ubuntu/lolonoa
 BUILD_JAR=$(ls /home/ubuntu/lolonoa/build/libs/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 
 #echo "> Build 파일 복사"
 
-cp $REPOSITORY/build/libs/*.jar $REPOSITORY/
+#cp $REPOSITORY/build/libs/*.jar $REPOSITORY/
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
 
@@ -35,9 +35,6 @@ chmod +x $JAR_NAME # Jar 파일은 실행 권한이 없는 상태이므로 권�
 
 echo "> $JAR_NAME 실행"
 
-nohup java -jar \
-#    -Dspring.config.location=classpath:/application.properties,classpath:/application-real.properties,/home/ubuntu/lolonoa/application-oauth.properties,/home/ec2-user/app/application-real-db.properties \
-#    -Dspring.profiles.active=real \
-    $REPOSITORY/$JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+nohup java -jar $REPOSITORY/$JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
 # nohup 실행 시 CodeDeploy는 무한 대기한다. 이를 해결하기 위해 nohup.out 파일을 표준 입출력용으로 별도로 사용한다.
 # 이렇게 하지 않으면 nohup.out 파일이 생성되지 않고 CodeDeploy 로그에 표준 입출력이 출력된다.
