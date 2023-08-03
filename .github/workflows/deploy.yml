@@ -24,8 +24,10 @@ jobs:
 
       - name: Generate application.yml
         run: |
-          touch src/main/resources/application.yml
-          echo "${{ secrets.APPLICATION }}" >> src/main/resources/application.yml
+          mkdir ./src/main/resources # resources 폴더 생성
+          cd ./src/main/resources # resources 폴더로 이동
+          touch ./application.yml # application.yml 생성
+          echo "${{ secrets.APPLICATION }}" > ./application.yml # github actions에서 설정한 값을 application.yml 파일에 쓰기
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
