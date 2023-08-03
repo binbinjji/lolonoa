@@ -10,7 +10,7 @@ public class Controller {
 
     @GetMapping("/version")
     public ResponseEntity<String> version_check(){
-        return ResponseEntity.ok().body("성공~! 버전 3");
+        return ResponseEntity.ok().body("성공~! 버전 1");
     }
     @GetMapping("/healthcheck")
     public ResponseEntity<Integer> health_check(){
