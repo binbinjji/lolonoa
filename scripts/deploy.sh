@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ubuntu/build/lolonoa-build
+REPOSITORY=/home/ubuntu/build/
 PROJECT_NAME=Lolonoa
 
 echo "> Build 파일 복사"
