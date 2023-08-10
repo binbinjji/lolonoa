@@ -26,13 +26,13 @@ public class SignController {
 //            @ApiResponse(responseCode = "401", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
 //
 //    })
-    @PostMapping(value = "/user/login")
+    @PostMapping(value = "/api/login")
     public ResponseEntity<SignResponse> login(@RequestBody LoginRequest request) throws Exception {
         return new ResponseEntity<>(memberService.login(request), HttpStatus.OK);
     }
 
     @Operation(summary = "회원가입", description = "회원가입 메서드입니다.")
-    @PostMapping(value = "/user/signup")
+    @PostMapping(value = "/api/signup")
     public ResponseEntity<Boolean> signup(@RequestBody SignRequest request) throws Exception {
         return new ResponseEntity<>(memberService.register(request), HttpStatus.OK);
     }
@@ -45,6 +45,7 @@ public class SignController {
     }
 
     @Operation(summary = "어드민 정보 조회", description = "어드민 정보 조회 메서드입니다.")
+    @SecurityRequirement(name="access-token")
     @GetMapping("/admin/get")
     public ResponseEntity<SignResponse> getUserForAdmin(@RequestParam String account) throws Exception {
         return new ResponseEntity<>( memberService.getMember(account), HttpStatus.OK);
@@ -52,6 +53,7 @@ public class SignController {
 
     //주석추가
     @Operation(summary = "토큰 리프레시", description = "access, refresh 토큰 모두 갱신합니다.")
+    @SecurityRequirement(name="access-token")
     @GetMapping("/user/refresh")
     public ResponseEntity<TokenDto> refresh(@RequestBody TokenDto token) throws Exception {
         return new ResponseEntity<>( memberService.refreshAccessToken(token), HttpStatus.OK);
