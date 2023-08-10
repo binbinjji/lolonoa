@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name="인증", description = "로그인, 회원가입, 정보 조회(user, admin), 토큰 리프레시(access, refresh 둘다)")
 @RestController
-//@RequestMapping("/user")
 @RequiredArgsConstructor
 public class SignController {
 
@@ -27,13 +26,13 @@ public class SignController {
 //            @ApiResponse(responseCode = "401", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
 //
 //    })
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/user/login")
     public ResponseEntity<SignResponse> login(@RequestBody LoginRequest request) throws Exception {
         return new ResponseEntity<>(memberService.login(request), HttpStatus.OK);
     }
 
     @Operation(summary = "회원가입", description = "회원가입 메서드입니다.")
-    @PostMapping(value = "/signup")
+    @PostMapping(value = "/user/signup")
     public ResponseEntity<Boolean> signup(@RequestBody SignRequest request) throws Exception {
         return new ResponseEntity<>(memberService.register(request), HttpStatus.OK);
     }
@@ -53,7 +52,7 @@ public class SignController {
 
     //주석추가
     @Operation(summary = "토큰 리프레시", description = "access, refresh 토큰 모두 갱신합니다.")
-    @GetMapping("/refresh")
+    @GetMapping("/user/refresh")
     public ResponseEntity<TokenDto> refresh(@RequestBody TokenDto token) throws Exception {
         return new ResponseEntity<>( memberService.refreshAccessToken(token), HttpStatus.OK);
     }

@@ -15,6 +15,7 @@ import java.util.List;
 public class Member {
 
     @Id
+    @Column(name = "member_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -23,14 +24,9 @@ public class Member {
 
     private String password;
 
-    private String nickname;
-
-    private String name;
-
     @Column(unique = true)
     private String email;
 
-//    private String refreshToken;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default

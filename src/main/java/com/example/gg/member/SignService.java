@@ -39,9 +39,7 @@ public class SignService {
         return SignResponse.builder()
                 .id(member.getId())
                 .account(member.getAccount())
-                .name(member.getName())
                 .email(member.getEmail())
-                .nickname(member.getNickname())
                 .roles(member.getRoles())
                 .token(TokenDto.builder()
                         .access_token(jwtProvider.createToken(member.getAccount(), member.getRoles()))
@@ -55,8 +53,6 @@ public class SignService {
             Member member = Member.builder()
                     .account(request.getAccount())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .nickname(request.getNickname())
-                    .name(request.getName())
                     .email(request.getEmail())
                     .build();
 
