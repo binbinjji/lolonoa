@@ -1,6 +1,6 @@
 package com.example.gg.security;
 
-import com.example.gg.member.Member;
+import com.example.gg.member.domain.model.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

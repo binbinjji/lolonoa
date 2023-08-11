@@ -43,4 +43,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/admin/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi group4(){
+        return GroupedOpenApi.builder()
+                .group("이메일")
+                .pathsToMatch("/email/**")
+                .build();
+    }
 }

@@ -1,5 +1,8 @@
-package com.example.gg.member;
+package com.example.gg.member.service;
 
+import com.example.gg.member.repository.MemberRepository;
+import com.example.gg.member.domain.model.Authority;
+import com.example.gg.member.domain.model.Member;
 import com.example.gg.member.dto.LoginRequest;
 import com.example.gg.member.dto.SignRequest;
 import com.example.gg.member.dto.SignResponse;
@@ -39,7 +42,7 @@ public class SignService {
         return SignResponse.builder()
                 .id(member.getId())
                 .account(member.getAccount())
-                .email(member.getEmail())
+                .nickname(member.getNickname())
                 .roles(member.getRoles())
                 .token(TokenDto.builder()
                         .access_token(jwtProvider.createToken(member.getAccount(), member.getRoles()))
@@ -53,7 +56,7 @@ public class SignService {
             Member member = Member.builder()
                     .account(request.getAccount())
                     .password(passwordEncoder.encode(request.getPassword()))
-                    .email(request.getEmail())
+                    .nickname(request.getNickname())
                     .build();
 
             member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));
@@ -71,7 +74,6 @@ public class SignService {
                 .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
         return new SignResponse(member);
     }
-
 
 
     public String createRefreshToken(Member member){
@@ -121,5 +123,12 @@ public class SignService {
         } else {
             throw new Exception("로그인을 해주세요");
         }
+    }
+
+    public boolean checkEmailDuplicate(String account){
+        if(memberRepository.existsByAccount(account)){
+            return true;
+        }
+        return false;
     }
 }

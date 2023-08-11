@@ -1,4 +1,4 @@
-package com.example.gg.member;
+package com.example.gg.member.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

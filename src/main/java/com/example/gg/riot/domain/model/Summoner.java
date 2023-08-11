@@ -1,6 +1,5 @@
 package com.example.gg.riot.domain.model;
 
-import com.example.gg.member.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +18,7 @@ public class Summoner {
 //    private String accountId;
 //    private int profileIconId;
 //    private long revisionDate;
+    @Column(unique = true)
     private String nickname;
     private String encryptedSummonerId;
     private String puuid;

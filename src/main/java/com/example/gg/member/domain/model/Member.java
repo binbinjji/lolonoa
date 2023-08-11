@@ -1,5 +1,6 @@
-package com.example.gg.member;
+package com.example.gg.member.domain.model;
 
+import com.example.gg.member.domain.model.Authority;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +26,7 @@ public class Member {
     private String password;
 
     @Column(unique = true)
-    private String email;
-
+    private String nickname;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Builder.Default

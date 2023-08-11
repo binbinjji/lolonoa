@@ -57,11 +57,11 @@ public class SecurityConfig {
                 .and()
                 // 조건별로 요청 허용/제한 설정
                 .authorizeRequests()
-                .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/healthcheck", "/api/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/user/**").hasRole("USER")
-                .anyRequest().denyAll()
-//                .anyRequest().permitAll()
+//                .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/healthcheck", "/api/**", "/email/**").permitAll()
+//                .requestMatchers("/admin/**").hasRole("ADMIN")
+//                .requestMatchers("/user/**").hasRole("USER")
+//                .anyRequest().denyAll()
+                .anyRequest().permitAll()
                 .and()
                 // JWT 인증 필터 적용
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)

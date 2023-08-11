@@ -1,7 +1,7 @@
 package com.example.gg.security;
 
-import com.example.gg.member.Member;
-import com.example.gg.member.MemberRepository;
+import com.example.gg.member.domain.model.Member;
+import com.example.gg.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

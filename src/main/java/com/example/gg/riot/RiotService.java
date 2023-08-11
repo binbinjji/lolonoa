@@ -26,22 +26,24 @@ import org.apache.http.HttpResponse;
 @Slf4j
 public class RiotService {
 
-    private String mykey = "RGAPI-ad099291-9ec5-4e69-82b7-0a77dd3a437e";
+    private String mykey = "RGAPI-2accff20-203f-4928-a908-242e98a4b91d";
     private ObjectMapper objectMapper = new ObjectMapper();
     private final RiotRepository riotRepository;
 
-    public Summoner callRiotAPISummonerByName(String summonerName){
+    public Summoner callRiotAPISummonerByName(String nickname){
+
+        Optional<Summoner> find_summoner = riotRepository.findByNickname(nickname);
+        if(find_summoner.isPresent()){
+            //log.info("이미 db에 존재");
+            return find_summoner.get();
+        }
+
         SummonerDTO result;
         String serverUrl = "https://kr.api.riotgames.com";
 
-//        Optional<Summoner> findSummoner = riotRepository.findByNickname(summonerName);
-//        if(findSummoner.isPresent()){
-//            return findSummoner.get();
-//        }
-
         try {
             CloseableHttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(serverUrl + "/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + mykey);
+            HttpGet request = new HttpGet(serverUrl + "/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
             HttpResponse response = (HttpResponse) client.execute(request);
             if(response.getStatusLine().getStatusCode() != 200){
                 // 오류
@@ -52,7 +54,6 @@ public class RiotService {
             result = objectMapper.readValue(entity.getContent(), SummonerDTO.class);
             Summoner summoner = result.toEntity();
             riotRepository.save(summoner);
-//            SummonerResponseDTO summonerResponseDTO = result.toEntity();
             return summoner;
         } catch (IOException e){
             e.printStackTrace();

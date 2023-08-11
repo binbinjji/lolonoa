@@ -1,6 +1,7 @@
-package com.example.gg.member;
+package com.example.gg.member.controller;
 
 
+import com.example.gg.member.service.SignService;
 import com.example.gg.member.dto.LoginRequest;
 import com.example.gg.member.dto.SignRequest;
 import com.example.gg.member.dto.SignResponse;
@@ -21,11 +22,6 @@ public class SignController {
     private final SignService memberService;
 
     @Operation(summary = "로그인", description = "로그인 메서드입니다.")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema = @Schema(implementation = Member.class))),
-//            @ApiResponse(responseCode = "401", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
-//
-//    })
     @PostMapping(value = "/api/login")
     public ResponseEntity<SignResponse> login(@RequestBody LoginRequest request) throws Exception {
         return new ResponseEntity<>(memberService.login(request), HttpStatus.OK);

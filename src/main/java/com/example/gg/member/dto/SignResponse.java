@@ -1,7 +1,7 @@
 package com.example.gg.member.dto;
 
-import com.example.gg.member.Authority;
-import com.example.gg.member.Member;
+import com.example.gg.member.domain.model.Authority;
+import com.example.gg.member.domain.model.Member;
 import com.example.gg.security.TokenDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class SignResponse {
     private String account;
 
 
-    private String email;
+    private String nickname;
 
     private List<Authority> roles = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class SignResponse {
     public SignResponse(Member member) {
         this.id = member.getId();
         this.account = member.getAccount();
-        this.email = member.getEmail();
+        this.nickname = member.getNickname();
         this.roles = member.getRoles();
     }
 }
