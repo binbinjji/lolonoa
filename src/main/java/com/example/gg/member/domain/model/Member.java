@@ -1,22 +1,18 @@
 package com.example.gg.member.domain.model;
 
-import com.example.gg.member.domain.model.Authority;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Builder @AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
+@Builder @AllArgsConstructor
+@NoArgsConstructor
 public class Member {
-
     @Id
-    @Column(name = "member_id", nullable = false)
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -32,10 +28,29 @@ public class Member {
     @Builder.Default
     private List<Authority> roles = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    List<Nicks> nicks = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "most_id")
+    private Nicks most;
+
+
     public void setRoles(List<Authority> role) {
         this.roles = role;
         role.forEach(o -> o.setMember(this));
     }
+
+    public void add_Nicks(Nicks nick){
+        nicks.add(nick);
+    }
+
+//    public void addGameName(GameName gameName){
+//        this.gameNames.add(gameName);
+//    }
+
 
 //    public void setRefreshToken(String refreshToken) {
 //        this.refreshToken = refreshToken;

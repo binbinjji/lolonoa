@@ -25,7 +25,7 @@ public class MailController {
     }
 
     @Operation(summary = "이메일 인증번호 비교(확인)", description = "true/false")
-    @GetMapping("/email/verify")
+    @PostMapping("/email/verify")
     public ResponseEntity<Boolean> verify(@RequestBody VerifyRequest verifyRequest) throws Exception {
         return new ResponseEntity<>(mailService.verifyCode(verifyRequest), HttpStatus.OK);
     }

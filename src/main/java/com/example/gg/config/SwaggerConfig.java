@@ -3,6 +3,7 @@ package com.example.gg.config;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,11 @@ public class SwaggerConfig {
                 .title("Lolonoa 프로젝트")
                 .version("v3")
                 .description("목표: 3달 안에 Lolonoa 프로젝트 완성시키기 2023.07.24~");
+
+
         return new OpenAPI()
+//                .addServersItem(new Server().url("/"))
+                .addServersItem(new Server().url("https://api.lolonoa.site/"))
                 .components(new Components())
                 .info(info);
     }
@@ -49,6 +54,22 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("이메일")
                 .pathsToMatch("/email/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi group5(){
+        return GroupedOpenApi.builder()
+                .group("라이엇")
+                .pathsToMatch("/riot/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi group6(){
+        return GroupedOpenApi.builder()
+                .group("롤문철")
+                .pathsToMatch("/judgement/**")
                 .build();
     }
 }

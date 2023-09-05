@@ -1,11 +1,13 @@
 package com.example.gg.member.service;
 
+import com.example.gg.member.domain.model.Nicks;
 import com.example.gg.member.repository.MemberRepository;
 import com.example.gg.member.domain.model.Authority;
 import com.example.gg.member.domain.model.Member;
 import com.example.gg.member.dto.LoginRequest;
 import com.example.gg.member.dto.SignRequest;
 import com.example.gg.member.dto.SignResponse;
+import com.example.gg.member.repository.NicksRepository;
 import com.example.gg.security.JwtProvider;
 import com.example.gg.security.Token;
 import com.example.gg.security.TokenDto;
@@ -17,21 +19,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
+//@EnableAutoConfiguration(exclude = {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
 public class SignService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final TokenRepository tokenRepository;
+    private final NicksRepository nicksRepository;
 
     public SignResponse login(LoginRequest request) throws Exception {
+
         Member member = memberRepository.findByAccount(request.getAccount()).orElseThrow(() ->
                 new BadCredentialsException("잘못된 계정정보입니다."));
 
@@ -51,7 +55,7 @@ public class SignService {
                 .build();
     }
 
-    public boolean register(SignRequest request) throws Exception {
+    public Member register(SignRequest request) throws Exception {
         try {
             Member member = Member.builder()
                     .account(request.getAccount())
@@ -61,17 +65,19 @@ public class SignService {
 
             member.setRoles(Collections.singletonList(Authority.builder().name("ROLE_USER").build()));
 
-            memberRepository.save(member);
+            Member savedMember = memberRepository.save(member);
+            return savedMember;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new Exception("잘못된 요청입니다.");
         }
-        return true;
     }
 
-    public SignResponse getMember(String account) throws Exception {
+    public SignResponse getMember(String access_token) throws Exception {
+        String account = jwtProvider.getAccount(access_token);
         Member member = memberRepository.findByAccount(account)
                 .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
+
         return new SignResponse(member);
     }
 
@@ -131,4 +137,82 @@ public class SignService {
         }
         return false;
     }
+
+    public void add_nick(String access_token, String nicks){
+        String account = jwtProvider.getAccount(access_token);
+        Member member = memberRepository.findByAccount(account).get();
+        Nicks nick = nicksRepository.save(
+                Nicks.builder()
+                        .nick(nicks)
+                        .member(member)
+                        .build()
+        );
+        member.add_Nicks(nick);
+    }
+
+    public List<String> list(String access_token){
+        String account = jwtProvider.getAccount(access_token);
+        Member member = memberRepository.findByAccount(account).get();
+        List<Nicks> nicks = member.getNicks();
+
+        List<String> arrayList = new ArrayList<String>();
+        for (Nicks nick : nicks) {
+            arrayList.add(nick.getNick());
+        }
+        return arrayList;
+    }
+
+    public void set_most(String access_token, String nick){
+        String account = jwtProvider.getAccount(access_token);
+        Optional<Member> member = memberRepository.findByAccount(account);
+        if(member.isPresent()){
+            member.get().setMost(nicksRepository.findByNick(nick));
+        }
+        throw new IllegalArgumentException("잘못된 요청입니다(존재하지않는 닉네임)");
+    }
+
+
+
+//    public void add_gameName(String access_token, String gameName){
+//        String account = jwtProvider.getAccount(access_token);
+//        Member member = memberRepository.findByAccount(account).get();
+//
+//        GameName new_gameName = GameName.builder()
+//                .member(member)
+//                .gameName(gameName)
+//                .build();
+//        gameNameRepository.save(new_gameName);
+////        member.addGameName(new_gameName);
+//    }
+
+//    public void set_most(String access_token, String gameName){
+//        String account = jwtProvider.getAccount(access_token);
+//        Member member = memberRepository.findByAccount(account).get();
+//
+//        GameName find_GameName = gameNameRepository.findByGameName(gameName);
+//        find_GameName.setMost(member);
+//        member.setMost(find_GameName);
+//
+//    }
+
+
+
+
+//    public boolean set_gameName(String access_token, String gameName){
+//        String account = jwtProvider.getAccount(access_token);
+//        Optional<Member> member = memberRepository.findByAccount(account);
+//
+//        if(member.isPresent()){
+//            GameName gameName1 = GameName.builder()
+//                    .gameName(gameName)
+//                    .build();
+//
+//            member.get().setGameName(Collections.singletonList(gameName1));
+//            return true;
+//        }
+//        return false;
+//    }
+
+
+
 }
