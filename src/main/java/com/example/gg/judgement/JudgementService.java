@@ -45,6 +45,13 @@ public class JudgementService {
         return savedJudgement;
     }
 
+    public Judgement search_judgement(Long id){
+        Judgement judgement = judgementRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지않는 롤문철입니다.")
+        );
+        return judgement;
+    }
+
     public Member find_member(String access_token){
         String account = jwtProvider.getAccount(access_token);
         Member member = memberRepository.findByAccount(account).orElseThrow(() ->

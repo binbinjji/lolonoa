@@ -31,6 +31,12 @@ public class JudgementController {
         return new ResponseEntity<>(judgementService.add_judgement(access_token, judgementAddDTO), HttpStatus.OK);
     }
 
+    @Operation(summary = "롤문철 조회", description = "..")
+    @GetMapping("/search/{id}")
+    public ResponseEntity<Judgement> search_judgement(@PathVariable Long id){
+        return new ResponseEntity<>(judgementService.search_judgement(id), HttpStatus.OK);
+    }
+
     @Operation(summary = "롤문철 삭제", description = "반환 값 없음(필요하면 말 ㄱㄱ)")
     @DeleteMapping("/delete")
     public void delete_judgement(@RequestHeader(value = "Authorization") String token, @RequestParam Long id){
@@ -44,6 +50,7 @@ public class JudgementController {
         String access_token = get_access_token(token);
         return new ResponseEntity<>(judgementService.update_judgement(access_token, id, judgementUpdateDTO), HttpStatus.OK);
     }
+
 
 
 }

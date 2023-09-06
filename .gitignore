@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 src/main/resources/application.yml
-
+.github
 ### IntelliJ IDEA ###
 .idea
 *.iws

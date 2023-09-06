@@ -1,18 +1,13 @@
 package com.example.gg.judgement.domain.model;
 
-import com.example.gg.judgement.dto.JudgementUpdateDTO;
+import com.example.gg.feedback.domain.model.Feedback;
 import com.example.gg.member.domain.model.Member;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.util.ObjectUtils;
-
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-//@DynamicUpdate
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,5 +42,8 @@ public class Judgement {
 
     private LocalDateTime postTime;
 
+    @OneToMany(mappedBy = "judgement", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("id asc") // 댓글 정렬
+    private List<Feedback> feedbacks;
 
 }
