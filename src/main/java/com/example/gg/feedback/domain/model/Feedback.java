@@ -3,10 +3,7 @@ package com.example.gg.feedback.domain.model;
 import com.example.gg.judgement.domain.model.Judgement;
 import com.example.gg.member.domain.model.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,10 +11,12 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @ManyToOne
     @JoinColumn(name = "judgement_id")
@@ -29,7 +28,8 @@ public class Feedback {
 
     private String comment;
 
-    private Long vote;
+//    @Enumerated(EnumType.STRING)
+    private String vote;
 
     private LocalDateTime postTime;
 }

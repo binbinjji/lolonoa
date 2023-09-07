@@ -2,6 +2,7 @@ package com.example.gg.judgement.domain.model;
 
 import com.example.gg.feedback.domain.model.Feedback;
 import com.example.gg.member.domain.model.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -42,6 +43,7 @@ public class Judgement {
 
     private LocalDateTime postTime;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "judgement", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @OrderBy("id asc") // 댓글 정렬
     private List<Feedback> feedbacks;

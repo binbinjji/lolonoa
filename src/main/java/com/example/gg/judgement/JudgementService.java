@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,9 +22,16 @@ public class JudgementService {
     private final JudgementRepository judgementRepository;
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
-    public Judgement add_judgement(String access_token, JudgementAddDTO judgementAddDTO){
+
+    public Member find_member(String access_token){
         String account = jwtProvider.getAccount(access_token);
-        Member member = memberRepository.findByAccount(account).get();
+        Member member = memberRepository.findByAccount(account).orElseThrow(() ->
+                new IllegalArgumentException("해당 회원이 존재하지않습니다.")
+        );
+        return member;
+    }
+    public Judgement add_judgement(String access_token, JudgementAddDTO judgementAddDTO){
+        Member member = find_member(access_token);
 
         Judgement savedJudgement = judgementRepository.save(
                 Judgement.builder()
@@ -52,14 +58,6 @@ public class JudgementService {
         return judgement;
     }
 
-    public Member find_member(String access_token){
-        String account = jwtProvider.getAccount(access_token);
-        Member member = memberRepository.findByAccount(account).orElseThrow(() ->
-                new IllegalArgumentException("해당 회원이 존재하지않습니다.")
-        );
-        return member;
-    }
-
     public void delete_judgement(String access_token, Long id){
         Member member = find_member(access_token);
         Judgement judgement = judgementRepository.findById(id).orElseThrow(() ->
@@ -67,8 +65,9 @@ public class JudgementService {
                 );
         if(judgement.getMember().equals(member)){
             judgementRepository.deleteById(id);
+        }else{
+            throw new IllegalArgumentException("잘못된 요청입니다(본인의 게시물이 아닙니다)");
         }
-        throw new IllegalArgumentException("잘못된 요청입니다(본인의 게시물이 아닙니다)");
     }
 
     public Judgement update_judgement(String access_token, Long id, JudgementUpdateDTO judgementUpdateDTO){

@@ -70,6 +70,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("롤문철")
                 .pathsToMatch("/judgement/**")
+                .pathsToMatch("/feedback/**")
                 .build();
     }
 }
