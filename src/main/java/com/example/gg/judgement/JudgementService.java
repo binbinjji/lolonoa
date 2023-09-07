@@ -8,6 +8,8 @@ import com.example.gg.member.repository.MemberRepository;
 import com.example.gg.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +58,10 @@ public class JudgementService {
                 new IllegalArgumentException("존재하지않는 롤문철입니다.")
         );
         return judgement;
+    }
+
+    public Page<Judgement> judgements_all(Pageable pageable){
+        return judgementRepository.findAll(pageable);
     }
 
     public void delete_judgement(String access_token, Long id){

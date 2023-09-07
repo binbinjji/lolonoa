@@ -70,6 +70,13 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("롤문철")
                 .pathsToMatch("/judgement/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi group7(){
+        return GroupedOpenApi.builder()
+                .group("피드백")
                 .pathsToMatch("/feedback/**")
                 .build();
     }

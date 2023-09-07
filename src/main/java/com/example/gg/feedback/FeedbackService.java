@@ -7,6 +7,8 @@ import com.example.gg.member.repository.MemberRepository;
 import com.example.gg.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,10 @@ public class FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
+
+    public Page<Feedback> feedbacks_list(Pageable pageable, Long judgement_id){
+        return feedbackRepository.findAll(pageable, judgement_id);
+    }
 
     public Member find_member(String access_token){
         String account = jwtProvider.getAccount(access_token);
