@@ -10,9 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public interface JudgementRepository extends JpaRepository<Judgement, Long> {
 
+    @Query("select j from Judgement j order by j.id desc")
     Page<Judgement> findAll(Pageable pageable);
 }

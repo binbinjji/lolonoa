@@ -27,10 +27,11 @@ public class FeedbackController {
         return splitJwt[1]; // "Bearer "제거
     }
 
-    @Operation(summary = "해당 롤문철의 피드백 불러오기", description = "아직 테스트 x")
-    @GetMapping("/all")
-    public Page<Feedback> feedbacks_list(@PageableDefault(size = 12, sort = "id",  direction = Sort.Direction.DESC) Pageable pageable, @RequestParam Long judgement_id){
-        return feedbackService.feedbacks_list(pageable, judgement_id);
+    @Operation(summary = "해당 롤문철의 피드백 불러오기", description = "파라미터 ex) page=0")
+    @GetMapping("/list")
+    @ResponseBody
+    public ResponseEntity feedbacks_list(@PageableDefault(size = 10) Pageable pageable, @RequestParam Long judgement_id){
+        return new ResponseEntity<>(feedbackService.feedbacks_list(pageable, judgement_id), HttpStatus.OK);
     }
 
     @Operation(summary = "피드백 추가", description = "..")

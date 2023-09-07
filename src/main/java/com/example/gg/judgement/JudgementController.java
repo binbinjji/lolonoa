@@ -8,12 +8,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,9 +31,10 @@ public class JudgementController {
         return splitJwt[1]; // "Bearer "제거
     }
 
-    @Operation(summary = "롤문철 리스트 조회", description = "아직 테스트 x")
+    @Operation(summary = "롤문철 리스트 조회", description = "파라미터 ex) page=0")
     @GetMapping("/all")
-    public Page<Judgement> judgements(@PageableDefault(size = 12, sort = "id",  direction = Sort.Direction.DESC) Pageable pageable){
+    @ResponseBody
+    public Page<Judgement> judgements(@PageableDefault(size = 10)Pageable pageable){
         return judgementService.judgements_all(pageable);
     }
 

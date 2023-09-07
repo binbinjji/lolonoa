@@ -35,7 +35,7 @@ import org.apache.http.HttpResponse;
 @Slf4j
 public class RiotService {
 
-    private String mykey = "RGAPI-c368abfa-f2ff-4b2f-b7e1-4303d9de92ee";
+    private String mykey = "RGAPI-c1673c59-4f2e-45bf-8c10-8355af31feb6";
     private ObjectMapper objectMapper = new ObjectMapper();
     private final RiotRepository riotRepository;
     private final RiotUpgradeRepository riotUpgradeRepository;
