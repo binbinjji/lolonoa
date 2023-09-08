@@ -45,7 +45,7 @@ public class Judgement {
 
     @JsonIgnore
     @OneToMany(mappedBy = "judgement", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @OrderBy("id asc") // 댓글 정렬
+//    @OrderBy("id asc") // 댓글 정렬
     private List<Feedback> feedbacks;
 
 }

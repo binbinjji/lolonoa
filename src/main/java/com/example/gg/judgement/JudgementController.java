@@ -32,7 +32,7 @@ public class JudgementController {
     }
 
     @Operation(summary = "롤문철 리스트 조회", description = "파라미터 ex) page=0")
-    @GetMapping("/all")
+    @GetMapping("/list")
     @ResponseBody
     public Page<Judgement> judgements(@PageableDefault(size = 10)Pageable pageable){
         return judgementService.judgements_all(pageable);

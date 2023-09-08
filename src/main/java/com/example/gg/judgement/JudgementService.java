@@ -6,6 +6,7 @@ import com.example.gg.judgement.dto.JudgementUpdateDTO;
 import com.example.gg.member.domain.model.Member;
 import com.example.gg.member.repository.MemberRepository;
 import com.example.gg.security.JwtProvider;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

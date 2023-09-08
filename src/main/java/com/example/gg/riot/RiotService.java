@@ -19,6 +19,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +36,8 @@ import org.apache.http.HttpResponse;
 @Slf4j
 public class RiotService {
 
-    private String mykey = "RGAPI-c1673c59-4f2e-45bf-8c10-8355af31feb6";
+    @Value("${riot.key}")
+    private String mykey;
     private ObjectMapper objectMapper = new ObjectMapper();
     private final RiotRepository riotRepository;
     private final RiotUpgradeRepository riotUpgradeRepository;
@@ -69,6 +71,35 @@ public class RiotService {
         return null;
     }
 
+    public Summoner update_summoner(String nickname){
+
+        String replacedNickname = nickname.replace(" ","");
+        nickname = nickname.replaceAll(" ","%20");
+
+        try {
+            CloseableHttpClient client = HttpClientBuilder.create().build();
+            HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
+            HttpResponse response = (HttpResponse) client.execute(request);
+            if(response.getStatusLine().getStatusCode() != 200){
+                // 오류
+                return null;
+            }
+            SummonerDTO result;
+            HttpEntity entity = response.getEntity();
+            result = objectMapper.readValue(entity.getContent(), SummonerDTO.class);
+            Summoner summoner = result.toEntity();
+
+            Optional<Summoner> find_summoner = riotUpgradeRepository.findByNickname(replacedNickname);
+            if(find_summoner.isPresent()){
+                find_summoner.get().update(summoner.getSummonerLevel());
+            }
+            return find_summoner.get();
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Summoner callRiotAPISummonerByName(String nickname){
 
         String replacedNickname = nickname.replace(" ","");
@@ -78,13 +109,12 @@ public class RiotService {
             return find_summoner.get();
         }
 
-        nickname = nickname .replaceAll(" ","%20");
+        nickname = nickname.replaceAll(" ","%20");
         SummonerDTO result;
-        String serverUrl = "https://kr.api.riotgames.com";
 
         try {
             CloseableHttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(serverUrl + "/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
+            HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
             HttpResponse response = (HttpResponse) client.execute(request);
             if(response.getStatusLine().getStatusCode() != 200){
                 // 오류

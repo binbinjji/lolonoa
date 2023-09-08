@@ -29,6 +29,9 @@ public class Summoner {
     private String puuid;
     private long summonerLevel;
 
+    public void update(long summonerLevel){
+        this.summonerLevel = summonerLevel;
+    }
 
 
 }
