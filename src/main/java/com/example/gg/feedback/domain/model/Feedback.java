@@ -17,7 +17,6 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "judgement_id")
     private Judgement judgement;

@@ -14,7 +14,6 @@ public class Player {
     @Column(name = "player_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
