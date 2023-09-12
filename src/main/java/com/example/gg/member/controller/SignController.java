@@ -72,7 +72,7 @@ public class SignController {
     @Operation(summary = "게임 닉네임 추가", description = ".")
     @SecurityRequirement(name="access-token")
     @PostMapping("/user/add/gameName")
-    public void add_nicks(@RequestHeader(value = "Authorization") String token, String nicks){
+    public void add_nicks(@RequestHeader(value = "Authorization") String token, @RequestParam String nicks){
         String access_token = get_access_token(token);
         memberService.add_nick(access_token, nicks);
     }
@@ -88,7 +88,7 @@ public class SignController {
     @Operation(summary = "게임 닉네임 모스트 설정", description = "1:1 매핑으로 새로운걸 연결해주면 원래 있던건 자동 해제됨")
     @SecurityRequirement(name="access-token")
     @PostMapping("/user/set/most")
-    public ResponseEntity set_most(@RequestHeader(value = "Authorization") String token, String nick){
+    public ResponseEntity set_most(@RequestHeader(value = "Authorization") String token, @RequestParam String nick){
         String access_token = get_access_token(token);
         try{
             memberService.set_most(access_token, nick);

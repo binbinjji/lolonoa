@@ -38,14 +38,10 @@ public class Judgement {
 
     private String yourOp;
 
-//    @CreationTimestamp //시간 자동 입력
-//    private Timestamp postTime;
-
     private LocalDateTime postTime;
 
     @JsonIgnore
     @OneToMany(mappedBy = "judgement", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-//    @OrderBy("id asc") // 댓글 정렬
     private List<Feedback> feedbacks;
 
 }

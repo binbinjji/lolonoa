@@ -1,5 +1,6 @@
 package com.example.gg.member.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,10 +31,12 @@ public class Member {
 
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     @Builder.Default
     List<Nicks> nicks = new ArrayList<>();
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "most_id")
     private Nicks most;
 

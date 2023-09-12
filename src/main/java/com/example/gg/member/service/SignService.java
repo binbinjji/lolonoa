@@ -166,9 +166,12 @@ public class SignService {
         String account = jwtProvider.getAccount(access_token);
         Optional<Member> member = memberRepository.findByAccount(account);
         if(member.isPresent()){
-            member.get().setMost(nicksRepository.findByNick(nick));
+            Nicks nicks = nicksRepository.findByNick(nick);
+            member.get().setMost(nicks);
+        }else{
+            throw new IllegalArgumentException("잘못된 요청입니다(존재하지않는 닉네임)");
         }
-        throw new IllegalArgumentException("잘못된 요청입니다(존재하지않는 닉네임)");
+
     }
 
 

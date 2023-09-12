@@ -18,6 +18,10 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String matchId;
+
+    private String sender;
+
     private String nickname;
 
     private String content;

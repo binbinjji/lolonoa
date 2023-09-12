@@ -53,7 +53,7 @@ public class JudgementController {
 
     @Operation(summary = "롤문철 삭제", description = "반환 값 없음(필요하면 말 ㄱㄱ)")
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete_judgement(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
         String access_token = get_access_token(token);
         judgementService.delete_judgement(access_token, id);

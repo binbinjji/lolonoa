@@ -80,4 +80,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/feedback/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi group8(){
+        return GroupedOpenApi.builder()
+                .group("리뷰")
+                .pathsToMatch("/review/**")
+                .build();
+    }
 }

@@ -43,7 +43,7 @@ public class FeedbackController {
 
     @Operation(summary = "피드백 삭제", description = "..")
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete_feedback(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
         String access_token = get_access_token(token);
         feedbackService.delete_feedback(access_token,id);

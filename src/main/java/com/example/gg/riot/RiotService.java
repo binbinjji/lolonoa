@@ -71,89 +71,6 @@ public class RiotService {
         return null;
     }
 
-    public Summoner update_summoner(String nickname){
-
-        String replacedNickname = nickname.replace(" ","");
-        nickname = nickname.replaceAll(" ","%20");
-
-        try {
-            CloseableHttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
-            HttpResponse response = (HttpResponse) client.execute(request);
-            if(response.getStatusLine().getStatusCode() != 200){
-                // 오류
-                return null;
-            }
-            SummonerDTO result;
-            HttpEntity entity = response.getEntity();
-            result = objectMapper.readValue(entity.getContent(), SummonerDTO.class);
-            Summoner summoner = result.toEntity();
-
-            Optional<Summoner> find_summoner = riotUpgradeRepository.findByNickname(replacedNickname);
-            if(find_summoner.isPresent()){
-                find_summoner.get().update(summoner.getSummonerLevel());
-            }
-            return find_summoner.get();
-        } catch (IOException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Summoner callRiotAPISummonerByName(String nickname){
-
-        String replacedNickname = nickname.replace(" ","");
-        Optional<Summoner> find_summoner = riotUpgradeRepository.findByNickname(replacedNickname);
-        if(find_summoner.isPresent()){
-            log.info("이미 db에 존재");
-            return find_summoner.get();
-        }
-
-        nickname = nickname.replaceAll(" ","%20");
-        SummonerDTO result;
-
-        try {
-            CloseableHttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
-            HttpResponse response = (HttpResponse) client.execute(request);
-            if(response.getStatusLine().getStatusCode() != 200){
-                // 오류
-                return null;
-            }
-
-            HttpEntity entity = response.getEntity();
-            result = objectMapper.readValue(entity.getContent(), SummonerDTO.class);
-            Summoner summoner = result.toEntity();
-            riotRepository.save(summoner);
-            return summoner;
-        } catch (IOException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String[] getMatchInfo(String puuid){
-        try {
-            CloseableHttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid +"/ids?type=ranked&start=0&count=5&api_key=" + mykey);
-            HttpResponse response = (HttpResponse) client.execute(request);
-            HttpEntity entity = response.getEntity();
-            String matchIds = EntityUtils.toString(entity);
-
-            String substring = matchIds.substring(2, matchIds.length() - 2); // 양 옆의 [", "] 없애기
-            System.out.println(substring);
-            String[] matchIdArray = substring.split("\",\"");
-//            for (String s : matchIdArray) {
-//                System.out.println(s);
-//            }
-            return matchIdArray;
-
-        } catch (IOException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public JSONObject matchDetailInfo(String matchId) throws IOException, ParseException {
 
         JSONObject jsonObject = new JSONObject();
@@ -161,7 +78,6 @@ public class RiotService {
 
         Optional<Game> findGame = gameRepository.findByMatch_id(matchId);
         if(findGame.isPresent()){
-            log.info("이미 DB에 존재");
             Game game = findGame.get();
             jsonObject.put("gameMode", game.getMode());
             jsonObject.put("gameDuration", game.getDuration());
@@ -202,8 +118,6 @@ public class RiotService {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(matchInfo);
         JSONObject jsonObj = (JSONObject) obj;
-//        JSONObject jso = (JSONObject) jsonObj.get("metadata");
-//        int count = 0;
 
         JSONObject info = (JSONObject) jsonObj.get("info");
         JSONArray participants = (JSONArray) info.get("participants");
@@ -316,5 +230,88 @@ public class RiotService {
         System.out.println(jsonArray);
         jsonObject.put("users", jsonArray);
         return jsonObject;
+    }
+
+    public Summoner update_summoner(String nickname){
+
+        String replacedNickname = nickname.replace(" ","");
+        nickname = nickname.replaceAll(" ","%20");
+
+        try {
+            CloseableHttpClient client = HttpClientBuilder.create().build();
+            HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
+            HttpResponse response = (HttpResponse) client.execute(request);
+            if(response.getStatusLine().getStatusCode() != 200){
+                // 오류
+                return null;
+            }
+            SummonerDTO result;
+            HttpEntity entity = response.getEntity();
+            result = objectMapper.readValue(entity.getContent(), SummonerDTO.class);
+            Summoner summoner = result.toEntity();
+
+            Optional<Summoner> find_summoner = riotUpgradeRepository.findByNickname(replacedNickname);
+            if(find_summoner.isPresent()){
+                find_summoner.get().update(summoner.getSummonerLevel());
+            }
+            return find_summoner.get();
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Summoner callRiotAPISummonerByName(String nickname){
+
+        String replacedNickname = nickname.replace(" ","");
+        Optional<Summoner> find_summoner = riotUpgradeRepository.findByNickname(replacedNickname);
+        if(find_summoner.isPresent()){
+            log.info("이미 db에 존재");
+            return find_summoner.get();
+        }
+
+        nickname = nickname.replaceAll(" ","%20");
+        SummonerDTO result;
+
+        try {
+            CloseableHttpClient client = HttpClientBuilder.create().build();
+            HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
+            HttpResponse response = (HttpResponse) client.execute(request);
+            if(response.getStatusLine().getStatusCode() != 200){
+                // 오류
+                return null;
+            }
+
+            HttpEntity entity = response.getEntity();
+            result = objectMapper.readValue(entity.getContent(), SummonerDTO.class);
+            Summoner summoner = result.toEntity();
+            riotRepository.save(summoner);
+            return summoner;
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String[] getMatchInfo(String puuid){
+        try {
+            CloseableHttpClient client = HttpClientBuilder.create().build();
+            HttpGet request = new HttpGet("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid +"/ids?type=ranked&start=0&count=5&api_key=" + mykey);
+            HttpResponse response = (HttpResponse) client.execute(request);
+            HttpEntity entity = response.getEntity();
+            String matchIds = EntityUtils.toString(entity);
+
+            String substring = matchIds.substring(2, matchIds.length() - 2); // 양 옆의 [", "] 없애기
+            System.out.println(substring);
+            String[] matchIdArray = substring.split("\",\"");
+//            for (String s : matchIdArray) {
+//                System.out.println(s);
+//            }
+            return matchIdArray;
+
+        } catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
