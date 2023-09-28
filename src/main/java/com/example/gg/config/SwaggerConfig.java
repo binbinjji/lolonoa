@@ -15,7 +15,7 @@ public class SwaggerConfig {
         Info info = new Info()
                 .title("Lolonoa 프로젝트")
                 .version("v3")
-                .description("목표: 3달 안에 Lolonoa 프로젝트 완성시키기 2023.07.24~");
+                .description("목표: 3달 안에 Lolonoa 프로젝트 완성 2023.07.24~2023.09.28");
 
 
         return new OpenAPI()
@@ -86,6 +86,14 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("리뷰")
                 .pathsToMatch("/review/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi group9(){
+        return GroupedOpenApi.builder()
+                .group("마이페이지")
+                .pathsToMatch("/mypage/**")
                 .build();
     }
 }
