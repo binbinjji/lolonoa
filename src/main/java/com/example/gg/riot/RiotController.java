@@ -6,13 +6,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-
 
 @Tag(name="라이엇", description = "롤 api key를 갱신해주지 않으면 에러가 뜨는 점 유의. ")
 @RestController
@@ -43,13 +39,13 @@ public class RiotController {
 
     @Operation(summary = "경기 id로 경기 전적 받기", description = "gameMode, gameDuration, users(summonerName, championName, champLevel, individualPosition, kills, deaths, assists, totalDamageDealtToChampions(가한 피해량), totalDamageTaken(받은 피해량), goldEarned(골드량), item0~6, wardsPlaced, wardsKilled)")
     @PostMapping("/game")
-    public ResponseEntity<JSONObject> getGameInfo(@RequestParam String matchId) throws IOException, ParseException {
+    public ResponseEntity<JSONObject> getGameInfo(@RequestParam String matchId) {
         return new ResponseEntity<>(riotService.matchDetailInfo(matchId), HttpStatus.OK);
     }
 
     @Operation(summary = "전적관련 정보 받기", description = "tier, rank, wins, losses, leaguePoints")
     @PostMapping("/tier")
-    public ResponseEntity<TierResponseDTO> getGameTier(String encryptedSummonerId) throws IOException, ParseException {
+    public ResponseEntity<TierResponseDTO> getGameTier(String encryptedSummonerId){
         return new ResponseEntity<>(riotService.getTier(encryptedSummonerId), HttpStatus.OK);
     }
 

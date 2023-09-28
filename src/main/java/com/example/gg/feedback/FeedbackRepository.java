@@ -14,4 +14,5 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
     @Query("select f from Feedback f left join f.judgement where f.judgement.id =:judgement_id order by f.id asc ")
     Page<Feedback> findAll(Pageable pageable, Long judgement_id);
+
 }

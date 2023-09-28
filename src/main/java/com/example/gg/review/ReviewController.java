@@ -6,14 +6,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/review")
@@ -26,6 +22,13 @@ public class ReviewController {
     private String get_access_token(String token){
         String[] splitJwt = token.split(" ");
         return splitJwt[1]; // "Bearer "제거
+    }
+
+    @Operation(summary = "리뷰 리스트", description = "닉네임으로 조회")
+    @ResponseBody
+    @GetMapping("/list")
+    public ResponseEntity reviews_list(@RequestParam String nickname){
+        return new ResponseEntity<>(reviewService.reviews_list(nickname), HttpStatus.OK);
     }
 
     @Operation(summary = "리뷰 추가", description = "..")
@@ -45,13 +48,6 @@ public class ReviewController {
         reviewService.delete_review(access_token,id);
     }
 
-
-    @Operation(summary = "리뷰 리스트", description = "닉네임으로 조회")
-    @ResponseBody
-    @GetMapping("/list")
-    public ResponseEntity reviews_list(@RequestParam String nickname){
-        return new ResponseEntity<>(reviewService.reviews_list(nickname), HttpStatus.OK);
-    }
 
 //    @ResponseBody
 //    @GetMapping("/list/{game_id}")

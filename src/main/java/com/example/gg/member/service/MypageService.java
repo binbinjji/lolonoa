@@ -1,15 +1,13 @@
-package com.example.gg.game;
+package com.example.gg.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class GameService {
-
-    public void add_game(){
-
-    }
+@Slf4j
+public class MypageService {
 }

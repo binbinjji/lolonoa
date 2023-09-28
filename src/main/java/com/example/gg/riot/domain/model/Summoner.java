@@ -1,15 +1,10 @@
 package com.example.gg.riot.domain.model;
 
-import com.example.gg.game.domain.model.Game;
-import com.example.gg.member.domain.model.Nicks;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

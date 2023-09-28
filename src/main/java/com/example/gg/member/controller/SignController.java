@@ -1,13 +1,11 @@
 package com.example.gg.member.controller;
 
-
 import com.example.gg.member.domain.model.Member;
 import com.example.gg.member.service.SignService;
 import com.example.gg.member.dto.LoginRequest;
 import com.example.gg.member.dto.SignRequest;
 import com.example.gg.member.dto.SignResponse;
 import com.example.gg.security.TokenDto;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +21,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-//@EnableAutoConfiguration(exclude = {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
 public class SignController {
 
     private final SignService memberService;
@@ -97,21 +94,5 @@ public class SignController {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
-
-
-
-//    @Operation(summary = "게임 닉네임 추가", description = "true/false, access token필요")
-//    @PostMapping("/user/setNickname")
-//    public ResponseEntity<Boolean> setGameNickname(String access_token, String nickname) throws Exception {
-//        return new ResponseEntity<>(memberService.set_game_nickname(access_token, nickname), HttpStatus.OK);
-//    }
-
-//    @PostMapping("/user/setNickname")
-//    public void setGameNickname(String access_token, String gameName) throws Exception {
-//        memberService.set_gameName(access_token, gameName);
-//    }
-
-
-
 
 }

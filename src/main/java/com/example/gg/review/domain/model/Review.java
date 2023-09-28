@@ -1,11 +1,8 @@
 package com.example.gg.review.domain.model;
 
-import com.example.gg.feedback.domain.model.Feedback;
 import com.example.gg.member.domain.model.Member;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter @Setter

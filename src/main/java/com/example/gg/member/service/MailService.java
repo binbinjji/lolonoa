@@ -19,7 +19,7 @@ public class MailService {
 
 
     /*한번 더 인증코드를 보내는 경우, redis에서 자동으로 인증코드가 갱신된다.*/
-    public boolean sendEmail(String email){
+    public void sendEmail(String email){
         Random random = new Random();
         int randomValue = random.nextInt(9000) + 1000;
 
@@ -27,25 +27,17 @@ public class MailService {
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject("인증 메일");
         simpleMailMessage.setText("인증번호: " + randomValue);
-        try{
-            javaMailSender.send(simpleMailMessage);
-            Mail mail = mailRepository.save(
-                    Mail.builder()
-                            .id(email)
-                            .code(randomValue)
-                            .expiration(300) // 300 = 60 * 5 (5분)
-                            .build()
-            );
-            return true;
-        } catch (Exception e){
-            return false;
-        }
+        javaMailSender.send(simpleMailMessage);
+        mailRepository.save(
+                Mail.builder()
+                        .id(email)
+                        .code(randomValue)
+                        .expiration(300) // 300 = 60 * 5 (5분)
+                        .build()
+        );
     }
 
-    public boolean verifyCode(VerifyRequest verifyRequest) throws Exception {
-//        Mail mail = mailRepository.findById(verifyRequest.getEmail())
-//                .orElseThrow(() -> new Exception("잘못된 접근입니다.(인증번호 요청필요)"));
-
+    public boolean verifyCode(VerifyRequest verifyRequest){
         Mail mail = mailRepository.findById(verifyRequest.getEmail()).get();
         if(mail.getCode().equals(verifyRequest.getCode())){
             return true;

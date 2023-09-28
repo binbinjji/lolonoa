@@ -25,7 +25,6 @@ import java.util.*;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-//@EnableAutoConfiguration(exclude = {org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class})
 public class SignService {
 
     private final MemberRepository memberRepository;
