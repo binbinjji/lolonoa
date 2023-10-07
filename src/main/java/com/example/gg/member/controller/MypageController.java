@@ -4,6 +4,7 @@ import com.example.gg.judgement.JudgementService;
 import com.example.gg.review.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/mypage")
+@Tag(name="마이페이지", description = "본인이 남긴 리뷰, 롤문철 가져오기")
 @Slf4j
 public class MypageController {
     private final ReviewService reviewService;

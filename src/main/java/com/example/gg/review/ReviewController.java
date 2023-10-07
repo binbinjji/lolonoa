@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/review")
 @RequiredArgsConstructor
-@Tag(name="리뷰", description = "추가, 삭제(아직), 편집(아직)")
+@Tag(name="리뷰", description = "추가, 삭제, 편집")
 public class ReviewController {
 
     private final ReviewService reviewService;

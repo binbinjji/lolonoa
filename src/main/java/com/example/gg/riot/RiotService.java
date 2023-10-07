@@ -120,7 +120,8 @@ public class RiotService {
     /**
      * puuid로 macthId 5개를 불러온다.
      */
-    public String[] getMatchInfo(String puuid){
+    public JSONArray getMatchInfo(String puuid){
+        JSONArray jsonArray = new JSONArray();
         try {
             CloseableHttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet("https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid +"/ids?type=ranked&start=0&count=5&api_key=" + mykey);
@@ -132,12 +133,11 @@ public class RiotService {
             HttpEntity entity = response.getEntity();
             String matchIds = EntityUtils.toString(entity);
 
-            String substring = matchIds.substring(2, matchIds.length() - 2); // 양 옆의 [", "] 없애기
-            System.out.println(substring);
-            String[] matchIdArray = substring.split("\",\"");
-            return matchIdArray;
+            JSONParser parser = new JSONParser();
+            JSONArray arr = (JSONArray) parser.parse(matchIds);
+            return arr;
 
-        } catch (IOException e){
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
         throw new CustomException(ErrorCode.BAD_RIOT_REQUEST);

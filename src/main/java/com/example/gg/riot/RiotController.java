@@ -5,6 +5,7 @@ import com.example.gg.riot.dto.TierResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class RiotController {
 
     @Operation(summary = "puuid로 경기id 받기", description = "최근 경기 5판의 id(KR_~~)값을 얻음")
     @PostMapping("/match")
-    public ResponseEntity<String[]> getMatchInfo(@RequestParam String puuid){
+    public ResponseEntity<JSONArray> getMatchInfo(@RequestParam String puuid){
         return new ResponseEntity<>(riotService.getMatchInfo(puuid), HttpStatus.OK);
     }
 
