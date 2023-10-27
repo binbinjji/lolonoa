@@ -29,7 +29,6 @@ public class RiotController {
     public ResponseEntity<Summoner> update_summoner(@RequestParam String summonerName){
         return new ResponseEntity<>(riotService.update_summoner(summonerName),HttpStatus.OK);
     }
-    
 
     @Operation(summary = "puuid로 경기id 받기", description = "최근 경기 5판의 id(KR_~~)값을 얻음")
     @PostMapping("/match")

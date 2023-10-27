@@ -4,6 +4,7 @@ import com.example.gg.judgement.domain.model.Judgement;
 import com.example.gg.judgement.dto.JudgementAddDTO;
 import com.example.gg.judgement.dto.JudgementUpdateDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,12 +30,14 @@ public class JudgementController {
 
     @Operation(summary = "롤문철 리스트 조회", description = "파라미터 ex) page=0")
     @GetMapping("/list")
+    @SecurityRequirement(name="access-token")
     @ResponseBody
     public Page<Judgement> judgements(@PageableDefault(size = 10)Pageable pageable){
         return judgementService.judgements_all(pageable);
     }
 
     @Operation(summary = "롤문철 추가", description = "성공시 Judgement 반환")
+    @SecurityRequirement(name="access-token")
     @PostMapping("/add")
     public ResponseEntity<Judgement> add_judgement(@RequestHeader(value = "Authorization") String token, @RequestBody JudgementAddDTO judgementAddDTO){
         String access_token = get_access_token(token);
@@ -42,12 +45,14 @@ public class JudgementController {
     }
 
     @Operation(summary = "롤문철 조회", description = "..")
+    @SecurityRequirement(name="access-token")
     @GetMapping("/search/{id}")
     public ResponseEntity<Judgement> search_judgement(@PathVariable Long id){
         return new ResponseEntity<>(judgementService.search_judgement(id), HttpStatus.OK);
     }
 
     @Operation(summary = "롤문철 삭제", description = "반환 값 없음(필요하면 말 ㄱㄱ)")
+    @SecurityRequirement(name="access-token")
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete_judgement(@RequestHeader(value = "Authorization") String token, @PathVariable Long id){
@@ -56,12 +61,11 @@ public class JudgementController {
     }
 
     @Operation(summary = "롤문철 수정", description = "dto중 변경된 값만 업데이트")
+    @SecurityRequirement(name="access-token")
     @PutMapping("/update/{id}")
     public ResponseEntity<Judgement> update_judgement(@RequestHeader(value = "Authorization") String token, @PathVariable Long id, @RequestBody JudgementUpdateDTO judgementUpdateDTO){
         String access_token = get_access_token(token);
         return new ResponseEntity<>(judgementService.update_judgement(access_token, id, judgementUpdateDTO), HttpStatus.OK);
     }
-
-
 
 }

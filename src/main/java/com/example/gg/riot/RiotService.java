@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.http.HttpResponse;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Service
 @Transactional
@@ -37,8 +38,7 @@ import org.apache.http.HttpResponse;
 @Slf4j
 public class RiotService {
 
-    @Value("${riot.key}")
-    private String mykey;
+    private String mykey = "RGAPI-5f44309c-116f-40d4-8cf4-3d07c1263221";
     private ObjectMapper objectMapper = new ObjectMapper();
     private final RiotRepository riotRepository;
     private final RiotUpgradeRepository riotUpgradeRepository;
@@ -100,7 +100,7 @@ public class RiotService {
         try {
             CloseableHttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet( "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + nickname + "?api_key=" + mykey);
-            HttpResponse response = (HttpResponse) client.execute(request);
+            HttpResponse response = client.execute(request);
             if(response.getStatusLine().getStatusCode() != 200){
                 // 오류
                 return null;
